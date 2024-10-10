@@ -1,0 +1,72 @@
+﻿@model ClassGroup
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<h2>Students List</h2>
+
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="alert alert-danger">
+        @ViewBag.ErrorMessage
+    </div>
+}
+
+<!-- Search Form -->
+<form method="get" asp-action="Index">
+    <div class="form-group">
+        <label for="searchString">Search by Name:</label>
+        <input type="text" id="searchString" name="searchString" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+
+<hr />
+
+<!-- Display Students Class-wise -->
+
+@foreach (var classGroup in ViewBag.Student)
+{
+    <h4>Class: @classGroup.ClassName</h4>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Roll Number</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Image</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (StudentGetDTO student in classGroup.Students)
+            {
+                <tr>
+                    <td>@student.Rollnumber</td>
+                    <td>@student.Name</td>
+                    <td>@student.Age</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(student.Image))
+                        {
+                            <img src="~/Upload/@student.Image" alt="@student.Name" width="50" height="50" />
+                        }
+                        else
+                        {
+                            <span>No Image</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<a href="@Url.Action("AddStudent")" class="btn btn-primary">Add New Student</a>
+<hr />
+<a href="@Url.Action("Index", "Teacher")" class="btn btn-primary">Teacher List</a>
+<hr />
+<a href="@Url.Action("AddSubject", "Subject")" class="btn btn-primary">Add Subject</a>
+<hr/>
+<a href="@Url.Action("TeacherSubjectList", "Subject")" class="btn btn-primary"> Subjects and Their Teachers</a>

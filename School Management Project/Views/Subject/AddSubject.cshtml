@@ -1,0 +1,42 @@
+﻿@model SubjectPostDTO
+@{
+    ViewData["Title"] = "AddSubject";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+
+<h2>Add Subject</h2>
+
+<form asp-action="AddSubject" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Class"></label>
+        <input asp-for="Class" class="form-control" />
+        <span asp-validation-for="Class" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label>Select Languages</label>
+        @foreach (LanguageGetDto language in ViewBag.Languages )
+        {
+            <div>
+                <input type="checkbox" name="LanguageIds" value="@language.Id" /> @language.Name
+            </div>
+        }
+    </div>
+    <button type="submit" class="btn btn-primary">Add Subject</button>
+</form>
+
+<a asp-action="Index">Back to List</a>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

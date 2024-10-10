@@ -1,0 +1,60 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+
+<h2>Teacher List</h2>
+
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="alert alert-danger">
+        @ViewBag.ErrorMessage
+    </div>
+}
+
+
+
+<hr />
+
+<!-- Display Students Class-wise -->
+ 
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+               
+                <th>Name</th>
+                <th>Age</th>
+            <th>Sex</th>
+                <th>Image</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (TeacherGETDto student in ViewBag.Teacher)
+            {
+                <tr>
+                   
+                    <td>@student.Name</td>
+                    <td>@student.Age</td>
+                <td>@student.Sex</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(student.Image))
+                        {
+                            <img src="~/Upload/@student.Image" alt="@student.Name" width="50" height="50" />
+                        }
+                        else
+                        {
+                            <span>No Image</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+<a href="@Url.Action("AddTeacher")" class="btn btn-primary">Add New Teacher</a>
